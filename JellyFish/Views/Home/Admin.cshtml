@@ -1,0 +1,75 @@
+﻿@model IEnumerable<JellyFish.Models.Job>
+@{
+}
+
+<h1>Admin</h1>
+<div>
+	<form class="navbar-form navbar-left" role="search" method="get" asp-action="Index">
+		<div class="form-group">
+			<label for="searchString">Search: </label>
+			<label for="SelectOption"></label>
+			<select id="SelectOption" name="SelectOption">
+				<option value="Title">Title</option>
+				<option value="Company">Company</option>
+				<option value="Location">Location</option>
+				<option value="Salary">Salary</option>
+			</select>
+
+			<input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+
+
+			<input type="submit" value="Search" class="btn btn-primary" />
+		</div>
+		<br />
+		<a asp-action="ActiveJob" class="btn btn-success">Check Active Job Posting</a> |  <a asp-action="Index" class="btn btn-success">Back to full list</a>
+	</form>
+	<br />
+
+	<table class="table">
+
+		<thead>
+			<tr>
+
+				<th>Job Title</th>
+				<th>Company</th>
+				<th>Location</th>
+				<th>Salary</th>
+				<th>Date Created</th>
+				@*        <th>IsActive</th>*@
+				<th>Actions</th>
+			</tr>
+
+
+		</thead>
+
+		<tbody>
+			<h5></h5>
+			@foreach (var job in Model)
+			{
+				<tr>
+
+					<p hidden>@Html.TextBoxFor(model => job.JobId, new { @class = "form-control", id = "jobId" })</p>
+					<td>@job.Title</td>
+					<td>@job.Employer.Company.Name</td>
+					<td>@job.Location</td>
+					<td>@job.Salary</td>
+					<td>@job.CreatedDate</td>
+					@*            <td>@job.IsActive</td>*@
+					<td>
+						<form asp-controller="Home" asp-action="AcceptJob" asp-route-id="@job.JobId" method="post">
+							<button class="btn btn-success" Name="checkAccept"
+								type="submit" value="Accept">
+								Accept
+							</button> |
+							<button class="btn btn-danger" Name="checkAccept"
+								type="submit" value="Decline">
+								Decline
+							</button>
+						</form>
+					</td>
+
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

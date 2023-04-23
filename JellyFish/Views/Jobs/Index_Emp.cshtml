@@ -1,0 +1,360 @@
+﻿
+@model IEnumerable<JellyFish.Models.Job>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+
+
+<style>
+	#call-to-action {
+		text-align: center;
+		margin: 2em 0;
+	}
+		#call-to-action h1 {
+			font-size: 4em;
+			margin-bottom: 0.5em;
+			color: #3b5e9c;
+		}
+		#call-to-action p {
+			font-size: 1.8em;
+			max-width: 790px;
+			margin: 0 auto;
+			color: #555;
+		}
+	jobs-search {
+		display: flex;
+		justify-content: center;
+	}
+	#jobs-search input {
+		padding: 0.9em;
+	}
+	#jobs-search [type=text] {
+		width: 22em;
+		border: 1px solid rgb(119, 119, 119);
+	}
+	#jobs-search #searchBtn {
+		background-color: #3b5e9c;
+		color: white;
+		font-weight: 600;
+		padding: 1em;
+		width: 8em;
+		border: none;
+	}
+	/* JOBS FILTER */
+	#filter-select {
+		padding: 0.5em 1em;
+		text-align: center;
+		background-color: rgb(213, 213, 213);
+		border-radius: 5px;
+	}
+	#job-container {
+		font-size: 1.2rem;
+		padding: 18px 1em;
+		border: 1px solid rgba(144,146,148,0.2);
+		position: relative;
+		margin-bottom: 8px;
+		box-shadow: 1px 1px 2px #ccc;
+	}
+	#appyBtn {
+		float: right;
+		/* background-color: #3b5e9c; */
+		color: #3b5e9c;
+		font-weight: 600;
+		padding: 1em;
+		width: 8em;
+		border: 0.5px solid #3b5e9c;
+		margin-right: 20px;
+	}
+</style>
+
+
+<section id="call-to-action">
+	<h1>
+		The #1 Job Board for
+		<br />
+		<span>IT Professionals</span>
+	</h1>
+	<p>Find the companies looking to hire or post a job if you are hiring</p>
+
+
+	<form asp-controller="Jobs" asp-action="RadioSelect" method="post">
+
+		<div class="form-floating">
+			<div class="btn-group">
+				<input type="radio" name="searchQuery" class="btn-check" id="option1" value="all" checked />
+				<label class="btn btn-primary" for="option1">All Jobs</label> 
+
+               @* <input type="radio" name="searchQuery" class="btn-check" id="option2" value="act" /> 
+                <label class="btn btn-primary" for="option2">Active Jobs</label> 
+*@
+				<input type="radio" name="searchQuery" class="btn-check" id="option3" value="inact" /> 
+				<label class="btn btn-primary" for="option3">Inactive</label> 
+
+                <input type="radio" name="searchQuery" class="btn-check" id="option4" value="opend" />
+				<label class="btn btn-primary" for="option4">Open</label> 
+
+                <input type="radio" name="searchQuery" class="btn-check" id="option5" value="closed" />
+                <label class="btn btn-primary" for="option5">Closed</label>
+
+			</div>
+			<input type="submit" value="Display" />
+		</div>
+       @* <select id="selectsearch" name="selectsearch" class="selectsearch">
+            <option selected value="all">All Jobs</option>
+            <option value="act">Active Jobs</option>
+            <option value="inact">Inactive Jobs</option>
+            <option value="opend">Opend Jobs</option>
+            <option value="closed">Closed Jobs</option>                                  
+        </select>*@
+
+	</form>
+
+
+
+
+</section>
+
+
+
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+			<th>
+                Pending
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsOpen)
+            </th>
+            <th>
+                Applicant
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+           @* <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<p hidden>@Html.TextBoxFor(model => item.JobId, new { @class = "form-control", id = "jobId" })</p>*@
+                 <td>
+                    
+                    @{
+                        if(item.IsActive == false)
+                        {
+                            <p style="color: red">pending</p>
+                        }
+                        else
+                        {
+                            <p></p>
+                        }
+                    }
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(model => item.Title)
+                </td>
+                @{
+
+					// var toggle = item.IsActive;
+
+					if (item.IsActive == true)
+					{
+						if (item.IsOpen == true)
+						{
+
+                            <td>
+                                <select data-valjob="@item.JobId"  id="select_Status" name="select_Status" class="select_Status">
+                                    <option selected value="Active">Open</option>
+                                    <option value="Paused">Closed</option>
+                                </select>
+                            </td>
+                        }
+                        else if (item.IsOpen == false)
+                        {
+                            <td>
+                                <select data-valjob="@item.JobId" id="select_Status" name="select_Status" class="select_Status">
+                                    <option value="Active">Open</option>
+                                    <option selected value="Paused">Closed</option>
+                                </select>
+                            </td>
+                        }
+
+					}
+					else
+					{
+						if (item.IsOpen == true)
+						{
+
+                            <td>
+                                <select data-valjob="@item.JobId" disabled id="select_Status" name="select_Status" class="select_Status">
+                                    <option selected value="Active">Open</option>
+                                    <option value="Paused">Closed</option>
+                                </select>
+                            </td>
+                        }
+                        else if (item.IsOpen == false)
+                        {
+                            <td>
+                                <select data-valjob="@item.JobId" disabled id="select_Status" name="select_Status" class="select_Status">
+                                    <option value="Active">Open</option>
+                                    <option selected value="Paused">Closed</option>
+                                </select>
+                            </td>
+                        }
+                    }
+
+
+
+
+
+
+
+				}
+
+				<td id="empRowContainer">
+
+				
+
+					@{
+
+
+						if (@ViewBag.ApplicantCountArray.Count > 0)
+						{
+
+							foreach (var obj in @ViewBag.ApplicantCountArray)
+							{
+								string applicantCount = obj.ToString();
+								string[] applicantCountList = applicantCount.Split(" ");
+								if (item.JobId.ToString() == applicantCountList[0])
+								{
+
+									if (Int32.Parse(applicantCountList[1]) != 0)
+									{
+										<a id="viewAppl" style="background-color: #3b5e9c;padding: 5px 10px;color: white;" class="nav-link" asp-controller="Jobs" asp-action="DisplayApplicents" asp-route-jobID="@item.JobId">@applicantCountList[1] Applicents</a>
+
+									}
+									else
+									{
+
+										<a style=" pointer-events: none; background-color: #768fba;padding: 5px 10px;color: white;" class="nav-link" asp-controller="Jobs" disabled asp-action="DisplayApplicents" asp-route-jobID="@item.JobId">@applicantCountList[1] Applicents</a>
+
+
+
+									}
+
+
+
+								}
+							}
+
+						}
+						else
+						{
+							<p>0</p>
+						}
+					}
+				</td>
+				<td>
+					@Html.DisplayFor(model => item.Salary)
+				</td>
+				<td>
+					@Html.DisplayFor(model => item.Location)
+				</td>
+				@*  <td>
+			@Html.Raw(@item.Description)
+			</td>*@
+				<td>
+					@Html.DisplayFor(model => item.CreatedDate)
+				</td>
+				@* <td hidden>
+			@Html.DisplayFor(modelItem => item.Category.CategoryId)
+			</td>
+			<td hidden>
+			@Html.DisplayFor(modelItem => item.Employer.EmployerId)
+			</td>
+			<td hidden>
+			@Html.DisplayFor(modelItem => item.JobType.JobTypeId)
+			</td>
+			<td hidden>
+			@Html.DisplayFor(modelItem => item.Level.Id)
+			</td>*@
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.JobId">Edit</a> |
+					<a asp-action="Details" asp-route-id="@item.JobId">Details</a> |
+					<a asp-action="Delete" asp-route-id="@item.JobId">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $("select.select_Status").change(function () {
+            var selectedStatus = $(this).children("option:selected").val();
+            var jobIdValue = $(this).data("valjob");
+            $.ajax({
+                url: '@Url.Action("ChangeStatus","Jobs")',
+                type: 'POST',
+                data: { statusValue: selectedStatus, jobId: jobIdValue },
+                success: function (result) {
+                    $("h5").text("The Status has been changed to " + selectedStatus);
+                }
+            });
+
+		});
+
+	});
+
+
+
+</script>
+<script>
+	tinymce.init({
+		selector: 'textarea',
+		width: 600,
+		height: 300,
+		plugins: [
+			'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview',
+			'anchor', 'pagebreak',
+			'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code',
+			'fullscreen', 'insertdatetime',
+			'media', 'table', 'emoticons', 'template', 'help'
+		],
+		toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+			'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+			'forecolor backcolor emoticons | help',
+		menubar: 'favs file edit view insert format tools table help',
+		content_css: 'css/content.css'
+	});
+</script>

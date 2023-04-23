@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="354fa5d7-b56f-453a-a13e-387a9db828ce" ChangeDateTime="03/26/2023 06:10:55">
+    <Property Name="ElementName" Value="[dbo].[Notification].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Notification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NotiId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d73f618a-c945-49aa-8a69-529af5f9b488" ChangeDateTime="03/28/2023 01:06:26">
+    <Property Name="ElementName" Value="[dbo].[Skill].[resumeFile]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Skill]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResumeFile" />
+  </Operation>
+</Operations>

@@ -1,0 +1,6 @@
+﻿CREATE TABLE Company 
+(company_id int IDENTITY NOT NULL, 
+name NVARCHAR(50) NULL, 
+url NVARCHAR(100) NULL, 
+logo NVARCHAR(255) NULL,
+PRIMARY KEY (company_id));

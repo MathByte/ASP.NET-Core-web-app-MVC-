@@ -1,0 +1,39 @@
+﻿@model List<Job>
+
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <div id="container">
+            <a id="ind-job" style="text-decoration:none; color:black" asp-controller="Jobs" asp-action="Details" asp-route-id="@item.JobId">
+                <div id="job-container">
+                    <div style="display:flex; gap:1em; min-width:17em">
+                    <img style="object-fit:contain" height="70" width="70" alt="company Logo" src="@item.Employer.Company.Logo" />
+                    <div>
+                        <h5 style="margin: 0">@item.Title</h5>
+                        @*<button id="appyBtn">Apply</button>
+                <button id="appyBtn">Save</button>*@
+                            <p style="color:grey; font-size:1rem; font-weight:600">@item.Employer.Company.Name</p>
+                    </div>
+
+                    </div>
+                    
+                        
+                        
+                    <div style="display:inline-flex; gap:0.2em;  width: 10em;  align-items:center">
+                        <p style="font-size:medium; font-weight:600; background-color:#f3f4f6; padding:0.2em 0.5em; border-radius:5px">@item.JobType.Name</p>
+                        <p style=" font-size:medium; font-weight:600; background-color:#f3f4f6; padding:0.2em 0.5em;border-radius:5px">@item.Level.LevelName</p>
+                    </div>
+                    <div>
+                        <p>@item.Location</p>
+                    </div>
+                </div>
+
+            </a>
+        </div>
+    }
+}
+else
+{
+    <p>No Jobs Found</p>
+}

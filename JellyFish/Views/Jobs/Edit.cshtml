@@ -1,0 +1,121 @@
+﻿@model JellyFish.Models.Job
+
+@{
+	ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-primary">Edit</h1>
+
+<h4>Job</h4>
+<hr />
+<div class="row">
+	<div class="col-md-6">
+		<form method="post" asp-action="Edit" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+			<div hidden class="form-group">
+				<label asp-for="IsActive" class="control-label"></label>
+				<input asp-for="IsActive" class="form-control" />
+			</div>
+
+
+
+
+			<input asp-for="JobId" />
+	
+			<input type="hidden" asp-for="IsOpen" />
+			<input type="hidden" asp-for="CreatedDate" />
+
+
+
+			<div class="form-group">
+				<label asp-for="Title" class="control-label"></label>
+				<input asp-for="Title" class="form-control" />
+				<span asp-validation-for="Title" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Location" class="control-label"></label>
+				<input asp-for="Location" class="form-control" />
+				<span asp-validation-for="Location" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Salary" class="control-label"></label>
+				<input asp-for="Salary" class="form-control" />
+				<span asp-validation-for="Salary" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="CategoryId" class="control-label">Category</label>
+				<select asp-for="CategoryId" class="form-select" asp-items="@ViewBag.CategoryList">
+					<option disabled selected>--Select Category--</option>
+				</select>
+
+			</div>
+			<div class="form-group">
+				<label asp-for="JobTypeId" class="control-label">Job Type</label>
+				<select asp-for="JobTypeId" class="form-select" asp-items="@ViewBag.JobType">
+					<option disabled selected>--Select Job Type--</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label asp-for="LevelId" class="control-label">Level</label>
+				<select asp-for="LevelId" class="form-select" asp-items="@ViewBag.LevelList">
+					<option disabled selected>--Select Level--</option>
+				</select>
+			</div>
+
+
+
+
+			<div class="form-group">
+				<label asp-for="Description" class="control-label"></label>
+				<textarea asp-for="Description" rows="15" cols="10" class="form-control"></textarea>
+				<span asp-validation-for="Description" class="text-danger"></span>
+			</div>
+
+
+
+
+			<input type="hidden" asp-for="EmployerId" />
+
+
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+
+
+
+<script>
+	tinymce.init({
+		selector: 'textarea',
+		width: 600,
+		height: 300,
+		plugins: [
+			'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview',
+			'anchor', 'pagebreak',
+			'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code',
+			'fullscreen', 'insertdatetime',
+			'media', 'table', 'emoticons', 'template', 'help'
+		],
+		toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+			'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+			'forecolor backcolor emoticons | help',
+		menubar: 'favs file edit view insert format tools table help',
+		content_css: 'css/content.css'
+	});
+</script>
+
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

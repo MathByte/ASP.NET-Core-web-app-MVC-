@@ -1,0 +1,274 @@
+﻿@using JellyFish.Models.View_Models;
+@model JobViewModel
+@{
+    ViewData["Title"] = "ApplicantIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+
+    /* Style the select box */
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Style the options */
+option {
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
+  background-color: #fff;
+}
+
+
+
+    #call-to-action {
+        text-align: center;
+        margin: 3em 0;
+    }
+
+        #call-to-action h1 {
+            font-size: 5em;
+            margin-bottom: 0.5em;
+            color: #3b5e9c;
+            font-weight: 700;
+        }
+
+        #call-to-action p {
+            font-size: 1.8em;
+            max-width: 790px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+    #jobs-search {
+        display: flex;
+        justify-content: center;
+        gap: 0.5em;
+    }
+
+    input[type="text"] {
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  width: 60%;
+        box-shadow: 1px 1px 2px #ccc;
+    }
+
+input[type="text"]:focus {
+  border-color: #007bff;
+}
+
+
+    #jobs-search #searchBtn {
+        background-color: #3b5e9c;
+        color: white;
+        font-weight: 700;
+        padding: 1em;
+        width: 8em;
+        border: none;
+        border-radius: 10px;
+       
+    }
+
+    /* JOBS FILTER */
+
+    #filter-select {
+        padding: 0.5em 1em;
+        text-align: center;
+        background-color: rgb(213, 213, 213);
+        border-radius: 5px;
+    }
+
+    #job-container {
+        gap:1em;
+        display:flex;
+        font-size: 1.2rem;
+        padding: 18px 1em;
+        border: 1px solid rgba(144,146,148,0.2);
+        position: relative;
+        margin-bottom: 8px;
+        box-shadow: 1px 1px 2px #ccc;
+        background-color:white;
+    }
+
+
+
+
+    #appyBtn {
+        float: right;
+        /* background-color: #3b5e9c; */
+        color: #3b5e9c;
+        font-weight: 600;
+        padding: 1em;
+        width: 8em;
+        border: 0.5px solid #3b5e9c;
+        margin-right: 20px;
+    }
+</style>
+
+
+
+
+<section id="call-to-action">
+    <h1>
+        The #1 Job Board for
+        <br />
+        <span>IT Professionals</span>
+    </h1>
+    <p>
+        Find the companies
+        looking to hire or post a job if you are hiring
+    </p>
+
+</section>
+<section >
+
+    <form id="jobs-search" asp-action="Index" >
+        <input name="jobTitle" type="text" placeholder="Job Title" />
+        @*<input name="jobTitle" type="text" placeholder="Job Title" />*@
+        <input id="searchBtn" type="submit" value="Seach Job" />
+    </form>
+</section>
+<section id="call-to-action">
+    <form asp-action="FilterJobType" method="post">
+        <div style="display:flex; justify-content:center; gap:0.5em">
+            <select class="form-select form-select-lg mb-3" style="width:auto; border-radius:5px; box-shadow: 1px 1px 2px #ccc;" asp-for="@Model.JobTypeFilterId" name="types.JobTypeFilterId" asp-items="ViewBag.Types" onchange="this.form.submit();">
+                <option value="" selected>Types</option>
+            </select>
+            <select class="form-select form-select-lg mb-3" style="width:auto; border-radius:5px; box-shadow: 1px 1px 2px #ccc;" asp-for="@Model.CategoryFilterId" name="types.CategoryFilterId" asp-items="ViewBag.Categories" onchange="this.form.submit();">
+                <option value="" selected>Categories</option>
+            </select>
+            <select class="form-select form-select-lg mb-3" style="width:auto; border-radius:5px; box-shadow: 1px 1px 2px #ccc;" asp-for="@Model.LevelFilterId" name="types.LevelFilterId" asp-items="ViewBag.Level" onchange="this.form.submit();">
+                <option value="" selected>Level</option>
+            </select>
+            <select class="form-select form-select-lg mb-3" style="width:auto; border-radius:5px; box-shadow: 1px 1px 2px #ccc;">
+                <option selected>Remote</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+    </form>
+
+
+    @*<form action="FilterJobType" method="post">
+        <select id="filter-select" class="typesSelect" asp-items="ViewBag.Types">
+            <option selected>JobType</option>
+        </select>
+
+
+        <select id="filter-select" asp-items="ViewBag.Categories">
+            <option selected>Category</option>
+        </select>
+
+        <select id="filter-select" asp-items="ViewBag.Level">
+            <option selected>Exp Level</option>
+        </select>
+    </form>*@
+
+
+   
+
+
+   @* <select id="filter-select">
+        <option selected disabled>Category</option>
+        <option>Front-end</option>
+        <option>Back-end</option>
+        <option>Full-stack</option>
+    </select>*@
+ @*   <select id="filter-select">
+        <option selected disabled>Remote</option>
+        <option>Yes</option>
+        <option>No</option>
+    </select>*@
+    @*<select id="filter-select">
+        <option selected disabled>Job Type</option>
+        <option>Full-time</option>
+        <option>Part-time</option>
+        <option>Contract</option>
+    </select>*@
+</section>
+<section id="jobs">
+    @if(Model.Jobs.Count() > 0)
+    {
+        foreach (var item in Model.Jobs)
+        {
+        <a id="ind-job" style="text-decoration:none; color:black" asp-controller="Jobs" asp-action="Details" asp-route-id="@item.JobId">
+            <div id="job-container">
+                <img style="object-fit:contain" height="100" width="100" alt="company Logo" src="@item.Employer.Company.Logo" />
+                <div>
+                    <h4>@item.Title</h4>
+                    @*<button id="appyBtn">Apply</button>
+                    <button id="appyBtn">Save</button>*@
+                    <h5>@item.Employer.Company.Name</h5>
+                    <div style="display:flex; gap:0.5em; margin-top:15px">
+                        <p style="font-size:medium; font-weight:600; background-color:#f3f4f6; padding:0.2em 0.5em;">@item.JobType.Name</p>
+                        <p style="font-size:medium; font-weight:600; background-color:#f3f4f6; padding:0.2em 0.5em;">@item.Level.LevelName</p>
+                    </div>
+                </div>
+            </div>
+            </a>
+        }
+    }
+    else
+    {
+        <p>No Jobs Foudn</p>
+    }
+
+    
+       
+
+</section>
+@*
+<h1>Appl.  Index</h1>
+<section id="call-to-action">
+      <h1>
+        The #1 Job Board for
+        <br />
+        <span>IT Professionals</span>
+      </h1>
+      <p>
+Find the companies
+        looking to hire or post a job if you are hiring
+      </p>
+    </section>
+
+<a asp-action="Index" asp-controller="Jobs" >View Jobs</a>*@
+
+@section Scripts {
+    <script defer type="text/javascript">
+
+        //function getJobType(){
+        //    alert("hh");
+        //    console.log(this)
+        //}
+
+
+
+        //document.querySelector('.typesSelect').addEventListener("change", function () {
+        //    console.log(typeof(this.value));
+        //    if(this.value != "JobType"){
+        //        fetch('/FilterJobType', {
+        //            method: 'post',
+        //            headers: { 'Content-Type': 'application/json' },
+        //            body: JSON.stringify({id : this.value})
+        //        });
+        //    }
+            
+
+        //});
+        //a.addEventListener('change', function () {
+        //    alert(this.value)
+        //})
+    </script>
+}

@@ -1,0 +1,140 @@
+﻿@page
+@using JellyFish.Models;
+@model JellyFish.Areas.Identity.Pages.Account.Manage.JobSeeker.IndexModel
+
+@{
+	List<UserSkill> ls = (List<UserSkill>)ViewBag.sklist;
+
+	ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+@Html.Partial("_ProfileImgPartial")
+
+<form id="profile-form" method="post" enctype="multipart/form-data">
+	<input asp-for="Input.ProfileImage" hidden />
+	<input asp-for="Input.ResumeFile" hidden />
+	<div class="row">
+		<div class="col-md-6">
+				
+			<h3>Profile</h3>
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-floating">
+				<input asp-for="Username" class="form-control" disabled />
+				<label asp-for="Username" class="form-label"></label>
+			</div>
+			<div class="form-floating">
+				<input asp-for="Input.PhoneNumber" class="form-control" />
+				<label asp-for="Input.PhoneNumber" class="form-label"></label>
+				<span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+			</div>
+
+			<div class="form-floating">
+				<input asp-for="Input.FirstName" class="form-control" />
+				<label asp-for="Input.FirstName" class="form-label"></label>
+				<span asp-validation-for="Input.FirstName" class="text-danger"></span>
+			</div>
+
+			<div class="form-floating">
+				<input asp-for="Input.LastName" class="form-control" />
+				<label asp-for="Input.LastName" class="form-label"></label>
+				<span asp-validation-for="Input.LastName" class="text-danger"></span>
+			</div>
+
+			<div class="form-floating">
+				<input asp-for="Input.DateOfBirth" class="form-control" />
+				<label asp-for="Input.DateOfBirth" class="form-label" typeof="date"></label>
+				<span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+			</div>
+
+			<hr />
+			<h3>Address</h3>
+			<div class="form-floating">
+				<input asp-for="Input.Street" class="form-control" />
+				<label asp-for="Input.Street" class="form-label"></label>
+				<span asp-validation-for="Input.Street" class="text-danger"></span>
+			</div>
+			<div class="form-floating">
+				<input asp-for="Input.City" class="form-control" />
+				<label asp-for="Input.City" class="form-label"></label>
+				<span asp-validation-for="Input.City" class="text-danger"></span>
+			</div>
+			<div class="form-floating">
+				<input asp-for="Input.PostalCode" class="form-control" />
+				<label asp-for="Input.PostalCode" class="form-label"></label>
+				<span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+			</div>
+			<div class="form-floating">
+				<input asp-for="Input.Province" class="form-control" />
+				<label asp-for="Input.Province" class="form-label"></label>
+				<span asp-validation-for="Input.Province" class="text-danger"></span>
+			</div>
+
+
+
+		</div>
+
+
+		<div class="col-md-6">
+			<h3>Skills</h3>
+			<div class="form-floating">
+				<input asp-for="Input.Skill"  class="form-control" />
+				<label asp-for="Input.Skill" class="form-label"></label>
+				<span asp-validation-for="Input.Skill" class="text-danger"></span>
+			</div>
+			<hr />
+			<h3>Skills List</h3>
+
+
+
+			@if (ls.Count != 0)
+			{
+				<div class="container">
+					@for (int i = 0; i < ls.Count; i++)
+					{
+						<div class="row">
+							<div class="col">
+								@ls[i].Skill.Name
+
+							</div>
+						</div>
+					}
+
+
+				</div>
+			}
+
+
+			<div class="col-md-6">
+				<div class="form-floating">
+					<input type="file" name="files" class="form-control">
+				</div>
+				<label asp-for="Input.ProfileImage" class="form-label"></label>
+			</div>
+			<br />
+			<div class="col-md-6">
+				<div class="form-floating">
+					<input type="file" name="files" class="form-control">
+				</div>
+				<label asp-for="Input.ResumeFile" class="form-label"></label>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<a class="btn btn-outline-primary" href="@Model.Input.ResumeFile" target="_blank">
+						Read now
+					</a>
+				</div>
+			</div>
+			@*<div class="col-2">
+			<img src="@Model.Input.ProfileImage" class="img-fluid" />
+			</div>*@
+			<button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+		</div>
+
+	</div>
+</form>
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

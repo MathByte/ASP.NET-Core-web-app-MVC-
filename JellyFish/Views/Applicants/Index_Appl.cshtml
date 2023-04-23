@@ -1,0 +1,26 @@
+﻿@model JellyFish.Models.View_Models.ApplyJobsViewModel;
+@{
+	ViewData["Title"] = "Index_Appl";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Are you sure you want to apply for this job?</h1>
+<br/>
+<form asp-action="ApplyForJob"  >
+	<input type="hidden" asp-for="@Model.job_ID" value="@Model.job_ID" />
+	<input type="hidden" asp-for="@Model.job_title" value="@Model.job_title" />
+	<input type="hidden" asp-for="@Model.job_desc" value="@Model.job_desc" />
+	<input type="hidden" asp-for="@Model.user_ID" value="@Model.user_ID" />
+
+	<div class="form-group">
+		<h4>@Html.DisplayNameFor(mo => mo.job_title)</h4>
+		<p>@Model.job_title</p>
+
+	</div>
+	<div class="form-group">
+		<h4>@Html.DisplayNameFor(mo => mo.job_desc)</h4>
+		<p>@Model.job_desc</p>
+	</div>
+	<br />
+	<button type="submit" class="btn btn-primary">Apply</button>
+</form>

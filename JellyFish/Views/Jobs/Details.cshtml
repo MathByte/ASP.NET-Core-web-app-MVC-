@@ -1,0 +1,135 @@
+﻿@model JellyFish.Models.Job
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    <a asp-action="Index" asp-controller="Home">Back to List</a>
+<div style="display:flex; gap:4em; border-radius: 10px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 20%); padding: 1em 3em;">
+	<div>
+        <div style="text-align: center;">
+            
+            <img style="object-fit:contain; border-radius:10px" height="100" width="100" src="@Model.Employer.Company.Logo"/>
+            
+
+            <h2>@Model.Title</h2>
+           
+            <div style="padding:2em 0; display:flex; gap:1em; justify-content:center; align-content:center">
+                
+                <div>
+           
+                    <h5 style="color: #3b5e9c">
+                        <i class="fa-solid fa-location-dot"></i>
+                        Location
+                    </h5>
+                    <p style="font-weight:600">Remote</p>
+
+                    @*<h4 style="color: #3b5e9c">Date Posted</h4>*@
+
+                </div>
+
+                <div>
+                    <h5 style="color: #3b5e9c">
+                        <i class="fa-solid fa-clock"></i>
+                        Type
+                    </h5>
+                    <p style="font-weight:600">@Model.JobType.Name</p>
+
+
+                </div>
+                <div>
+                    <h5 style="color: #3b5e9c">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        Level
+                    </h5>
+                    <p style="font-weight:600">@Model.Level.LevelName</p>
+
+
+                </div>
+                <div>
+                    <h5 style="color: #3b5e9c"><i class="fa-solid fa-suitcase"></i>
+                        Category</h5>
+                    <p style="font-weight:600">@Model.Category.Name</p>
+                </div>
+
+                <div >
+
+
+                    <h5 style="color: #3b5e9c"><i class="fa-solid fa-sack-dollar"></i>
+                        Salary</h5>
+
+
+                    <p style="font-weight:600">$@Model.Salary</p>
+
+           @*     <p>@{
+                        var date = DateTime.Today;
+                    } @date</p>*@
+                </div>
+                
+            </div>
+            <div>
+                @if (User.IsInRole("JobSeeker"))
+                {
+                    @if (ViewBag.applied == true)
+                    {
+
+                        <button disabled id="btnApply" class="btn btn-primary" >Apply</button>
+                       @* <a class="btn btn-success" asp-controller="Applicants" asp-route-isApplied="Saved" asp-action="Index" asp-route-jobID=@Model.JobId>Save</a>*@
+                    }
+                    else
+                    {
+                        <a id="btnApply" class="btn btn-primary" asp-route-isApplied=true asp-controller="Applicants" asp-action="Index" asp-route-jobID=@Model.JobId>Apply</a>
+                    }
+
+                   if (ViewBag.saved == true)
+                    {
+                        
+                        <button disabled class="btn btn-success" >Save</button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success" asp-controller="Applicants" asp-route-isSaved=true asp-action="Index" asp-route-jobID=@Model.JobId>Save</a>
+                        
+                    }
+                       
+                }
+
+
+
+            </div>
+
+        </div>
+            @Html.Raw(Model.Description)
+   
+    
+</div>
+
+@*
+<div>
+
+
+  
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Employer.Company.Logo)
+        </dt>
+        <dd class = "col-sm-10">
+           
+      </dd>
+    </dl>*
+</div>*@
+
+

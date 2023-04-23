@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - JellyFish</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/JellyFish.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+	@*    <link rel="stylesheet" href="/lib/fontawesome-free-6.3.0-web/css/all.css" />*@
+	<script src="https://kit.fontawesome.com/c727c6872d.js" crossorigin="anonymous"></script>
+	<script src="~/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+	
+
+	<link href="~/notification/ikr.notification.css" rel="stylesheet" />
+
+	<style>
+		.nav-color{
+			color: #3b5e9c !important;
+			font-weight:600;
+			font-size:20px;
+			align-content:center;
+		}
+		.nav-align-center{
+			align-items:center !important;
+			display: flex;
+		}
+
+		.nav-color:hover{
+			color: #9DAECD !important;
+		}											
+	</style>
+
+
+</head>
+<body style="background-color:#f9fafb">
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+			<div class="container-fluid">
+				@*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+				<img height="70" width="180" src="./images/Logo.png" />
+				</a>*@
+				@*	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+				</button>*@
+				<div style="padding:0 6em;" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<div>
+						<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+							<img height="70" width="180" src="~/images/Logo.png" />
+						</a>
+					</div>
+					
+
+					<ul class="navbar-nav nav-align-center">
+						<li class="nav-item ">
+							@if (User.IsInRole("JobSeeker"))
+							{
+								<a class="nav-color nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+							}
+							@if (User.IsInRole("Employer"))
+							{
+								<a class="nav-color nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+								<div id="noti_Container"></div>
+
+							}
+							@if (User.IsInRole("Administrator"))
+							{
+								<a class="nav-color nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+							}
+
+
+						</li>
+					@if (User.IsInRole("JobSeeker"))
+						{
+							
+							
+							<li>
+								<a id="myjobs" class="nav-color nav-link" asp-area=""  asp-action="MyJobs">My Jobs</a>
+
+							</li>
+						}
+						
+						@if (User.IsInRole("Employer"))
+						{
+							@*<li class="nav-item">
+								<a style="background-color: #3b5e9c;padding: 10px 10px;color: white;" class="nav-link" asp-area="" asp-controller="Jobs" asp-action="DisplayApplicents">View Applicent</a>
+							</li>*@
+							<li class="nav-item">
+								<a style="background-color: #3b5e9c;padding: 10px 10px;color: white;" class="nav-link" asp-area="" asp-controller="Jobs" asp-action="Create">Post a Job</a>
+							</li>
+						}
+
+						<li class="nav-item">
+							<partial name="_LoginPartial" />
+
+						</li>
+						<li>
+
+						</li>
+
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="p-5">
+			<partial name="_Notification"/>
+			@RenderBody()
+		</main>
+	</div>
+
+	<footer class="border-top footer text-muted">
+		<div class="container">
+			&copy; 2023 -
+
+
+			- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script src="~/notification/ikr.notificationplugin.js"></script>
+
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#noti_Container").ikrNotificationSetup();
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: "/Notifications/GetNotifications",
+			traditional: true,
+			contentType: "application/json;charset=utf-8",
+			success: function (data){
+				var notifications = data;
+				$("#noti_Container").ikrNotificationCount({
+					NotificationList: notifications,
+					//NotiFromPropName: "FromUserName",
+					ListTitlePropName: "NotiHeader",
+					ListBodyPropName: "NotiBody",
+					ControllerName: "Notifications",
+					ActionName: "AllNotifications"
+				});
+			},
+			error: function (xhr, status, error){
+
+			}
+		});
+	});	
+</script>

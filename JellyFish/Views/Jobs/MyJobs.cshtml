@@ -1,0 +1,112 @@
+﻿@model List<Job>
+
+@{
+    ViewData["Title"] = "MyJobs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    #job-container {
+       gap:3em;
+        display: flex;
+        font-size: 1.2rem;
+        padding: 18px 1em;
+        border: 1px solid rgba(144,146,148,0.2);
+        margin-bottom: 8px;
+        box-shadow: 1px 1px 2px #ccc;
+        background-color: white;
+        align-items:center;
+    
+        
+
+    }
+    p{
+        margin:0;
+        padding:0;
+    }
+</style>
+
+<h2 style="color:#3b5e9c; font-weight:700; font-size:3em" id="jobsTitle">My Jobs</h2>
+
+@*<p>
+    <a asp-page="Create">Create New</a>
+</p>*@
+
+<section id="jobs">
+    <label style="font-size: 1.5em" for="filterSelect">Job Filter</label>
+    <select  style="width:auto; border-radius:5px; box-shadow: 1px 1px 2px #ccc; padding:5px 10px; font-size:1.2em; margin: 15px 0" name="filterSelect" id="filterSelect">
+        <option>All</option>
+        <option >Applied</option>
+        <option>Saved</option>
+        <option>Selected</option>
+
+    </select>
+    <div id="container">
+        <partial name="_MyJobsPartial.cshtml" model="@Model" />
+    </div>
+
+
+   
+
+
+
+</section>
+@*
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+
+            <th>
+                Company
+            </th>
+            
+            <th>
+                Salary
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Job.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Job.Employer.Company.Name)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(model => item.Job.Salary)
+                </td>
+                @*<td>
+            <a asp-page="./Edit" asp-route-id="@item.ApplicantId">Edit</a> |
+            <a asp-page="./Details" asp-route-id="@item.ApplicantId">Details</a> |
+            <a asp-page="./Delete" asp-route-id="@item.ApplicantId">Delete</a>
+            </td>
+            </tr>
+        }
+    </tbody>
+</table>
+*@
+<script>
+    $("#filterSelect").change(function(){
+        console.log($(this).val());
+        $.ajax({
+            type: "Get",
+            url: "/Jobs/MyJobsFiltered?appliedJobs=" + $(this).val(),  //remember change the controller to your owns.
+            success: function (data) {
+                $("#container").html("");
+                $("#container").html(data);
+            },
+            error: function (response) {
+                console.log(response.responseText);
+            }
+        });
+    })
+</script>
